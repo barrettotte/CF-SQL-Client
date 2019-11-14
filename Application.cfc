@@ -19,7 +19,7 @@ component{
     private void function loadConfiguration(required string configPath){
         var config = application.utils.readJsonFile(arguments.configPath);
         if(!structKeyExists(config, "secretKey")){
-            throw "Credentials have not been encrypted. Please run 'task run tasks/EncryptCreds'.";
+            throw "Credentials have not been encrypted. Please run 'task run tasks/setup'.";
         }
         for(local.ds in config.datasources){
             try{
