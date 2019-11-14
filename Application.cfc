@@ -1,65 +1,56 @@
 component{
 
     boolean function onApplicationStart(){
-        local.configPath = "config.json";
-        local.config = this.readConfigJson(local.configPath);
-        if(!structKeyExists(local.config, "secretKey")){
-            this.populateSecretKey(local.config, local.configPath);
+        try{
+            application.applicationName = "CF-SQL-Client";
+            local.configPath = "config.json";
+            application.utils = new Utils();
+            local.config = application.utils.readJsonFile(local.configPath);
+            if(!structKeyExists(local.config, "secretKey")){
+                application.secretKey = generateSecretKey("AES", 256);
+                local.config = this.encryptCredentials(local.config, local.configPath);
+            }
+            this.loadConfiguration(local.config);
+        } catch(any e){
+            application.utils.handleError(errMsg="Error starting application.", e=e, isFatal=true, toScreen=true);
         }
-        this.initDatasources(local.config.datasources);
         return true;
     }
 
-    boolean function onApplicationEnd(){}
-
-    private void function populateSecretKey(required struct config, required string configPath){
+    boolean function onApplicationEnd(){
+        // do nothing ... for now
+    }
+    
+    // This is only run once on new setup. Generate AES secret key and encrypt datasource credentials. 
+    // Overwrites config.json with encrypted credentials.
+    private struct function encryptCredentials(required struct config, required string configPath){
         try{
-            var newConfig = structCopy(arguments.config);
-            newConfig['secretKey'] = generateSecretKey("AES", 128);
-            fileWrite(arguments.configPath, serializeJson(newConfig));
+            application.utils.assertStructKeyExists(application, 'secretKey');
+            application.utils.assertStructKeyExists(arguments.config, 'datasources');
+            var newConfig = {'secretKey': application.secretKey, 'datasources': arrayNew(1)};
+            for(var ds in arguments.config.datasources){
+                ds['username'] = application.utils.appEncrypt(ds['username']);
+                ds['password'] = application.utils.appEncrypt(ds['password']);
+                arrayAppend(newConfig['datasources'], ds);
+            }
+            fileWrite(arguments.configPath, application.utils.prettifyJson(serializeJson(newConfig)));
         } catch(any e){
-            this.handleError(errMsg="Error populating secret key.", exc=e, isFatal=true);
+            application.utils.handleError(errMsg="Error encrypting datasource credentials.", e=e, isFatal=true);
         }
+        return newConfig;
     }
 
-    private void function initDatasources(required array dsConfig){
-        for(var ds in arguments.dsConfig){
+    // Load relevant configuration data into application scope
+    private void function loadConfiguration(required struct config){
+        if(!structKeyExists(application, 'secretKey')){
+            application.secretKey = arguments.config.secretKey;
+        }
+        for(local.ds in arguments.config.datasources){
             try{
-                if(!(structKeyExists(this, "defaultDatasource") && structKeyExists(this, "datasource"))){
-                    this.defaultDatasource = ds.name;
-                    this.datasource = ds.name;
-                }
-                this.datasources[ds.name] = ds;
+                application.datasources[local.ds.name] = local.ds;
             } catch(any e){
-                this.handleError(errMsg="Error reading datasource configuration.", exc=e, isFatal=true);
+                this.handleError(errMsg="Error reading datasource configuration.", e=e, isFatal=true);
             }
-        }
-    }
-
-    private struct function readConfigJson(required string configPath){
-        var fullPath = expandPath(arguments.configPath);
-        try{
-            if(fileExists(arguments.configPath)){
-                return deserializeJson(fileRead(configPath));
-            }
-            this.handleError(errMsg="Could not find config file at '#fullPath#'.", isFatal=true);
-        } catch(any e){
-            this.handleError(errMsg="Error occurred reading config file at '#fullPath#'.", exc=e, isFatal=true);
-            dump(var=e, output="console");
-        }
-        return null;
-    }
-
-    private void function handleError(required string errMsg, any exc=null, boolean isFatal=false){
-        writeOutput("<p style='color:red'>" & arguments.errMsg & "</p>");
-        dump(var=arguments.errMsg, output="console");
-
-        if(!isNull(arguments.exc)){
-            dump(var=arguments.exc, output="console");
-            writeOutput(arguments.exc);
-        }
-        if(arguments.isFatal){
-            applicationStop();
         }
     }
 }

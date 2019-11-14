@@ -12,14 +12,12 @@
 	<body>
 		<h2>CF SQL Client</h2>
 		<hr>
-
-    <cfscript>
-      local.meta = getApplicationMetadata();
-      dump(local.meta);
-    </cfscript>
-		
-    <div class="container">
-			
+		<cfscript>
+		  dump(application);
+      
+		</cfscript>
+		<div class="container">
+				
 		</div>
 	</body>
 </html>
