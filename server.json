@@ -1,5 +1,10 @@
 {
     "app":{
-        "cfengine":"lucee"
+        "cfengine":"lucee@5"
+    },
+    "name":"CF-SQL-Client",
+    "JVM":{
+        "heapsize":"2048",
+        "args":"-Dlucee-extensions=037A27FF-0B80-4CBA-B954BEBD790B460E -javaagent:\\commandBox\\engine\\cfml\\cli\\lucee-server\\context\\lucee-external-agent.jar"
     }
 }

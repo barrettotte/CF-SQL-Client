@@ -13,11 +13,19 @@
 		<h2>CF SQL Client</h2>
 		<hr>
 		<cfscript>
-		  dump(application);
-      
+      local.renderer = new Renderer();
+      local.sqlRunner = new SqlRunner();
 		</cfscript>
+
 		<div class="container">
-				
+      <cfscript>
+        dump(application.datasources);
+        dump(structKeyList(application.datasources));
+        
+        local.renderer.renderDatasourceDropdown();
+        writeOutput(local.sqlRunner.helloWorld());
+      </cfscript>
 		</div>
+
 	</body>
 </html>

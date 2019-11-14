@@ -15,9 +15,27 @@ This was made to just screw around with Lucee and some SQL.
 
 
 ## Setup
-After cloning the application, datasource credentials within **config.json** are in plaintext until the application is run for the first time.
-When its run for the first time, the credentials are encrypted with an AES key and injected back into the configuration file.
-All future executions will already have the encrypted credentials and use the stored AES key.
+Enter datasources into **config.json**
+```javascript
+// config.json
+{
+  "datasources": [
+    {
+      "name":"MY_MSSQL",
+      "type":"mssql",
+      "class":"com.microsoft.jdbc.sqlserver.SQLServerDriver",
+      "connectionString":"jdbc:sqlserver://someserver:1433",
+      "username":"myuser",    // These will be encrypted
+      "password":"mypassword" //   in the next step
+    }
+  ]
+}
+```
+
+Start CommandBox in current directory with ```box.exe``` and run the encryption task with ```task run tasks/EncryptCreds```.
+This task will overwrite the configuration file with encrypted credentials.
+
+Start the server with ```server start```
 
 
 ## Commands
