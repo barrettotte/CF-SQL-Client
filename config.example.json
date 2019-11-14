@@ -1,0 +1,12 @@
+{
+  "datasources": [
+    {
+      "name": "MY_MSSQL",
+      "type": "mssql",
+      "class": "com.microsoft.jdbc.sqlserver.SQLServerDriver",
+      "connectionString": "jdbc:sqlserver://someserver:1433",
+      "username": "myuser",
+      "password": "mypassword"
+    }
+  ]
+}
