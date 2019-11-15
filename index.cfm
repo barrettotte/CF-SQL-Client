@@ -23,14 +23,6 @@
 		</cfscript>
 		<div class="container app">
       <div class="row">
-        <div class="col-md-3 app-l-header">
-          <h4 class="text-center">Left side</h4>
-        </div>
-        <div class="col-md-9 app-r-header">
-          <h4 class="text-center">Right side</h4>
-        </div>
-      </div>
-      <div class="row">
         <div class="col-md-3 app-l-body">
           <cfscript>
             writeOutput(local.renderer.renderAppLeft());
@@ -38,7 +30,7 @@
         </div>
         <div class="col-md-9 app-r-body">
           <cfscript>
-            writeOutput(local.sqlRunner.helloWorld());
+            writeOutput(local.renderer.renderAppRight());
           </cfscript>
         </div>
       </div>

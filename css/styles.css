@@ -4,10 +4,6 @@ html,body{
     width: 100%;
 }
 
-.header{
-    /**/
-}
-
 .app{
     padding-top: 25px;
     padding-bottom: 50px;
@@ -17,22 +13,25 @@ hr.header-sep{
     border-top: 1px solid rgb(50,50,50);
 }
 
-.app-l-header{
-    border: 1px solid rgb(75,75,75);
-}
-.app-r-header{
-    border: 1px solid rgb(75,75,75);
-    border-left-color: rgba(0,0,0,0);
-}
-
 .app-l-body{
-    padding-top: 10px;
+    padding-top: 25px;
     background-color: rgb(150,150,150);
     height: 75vh;
 }
 
 .app-r-body{
-    padding-top: 10px;
+    padding: 25px;
     background-color: rgb(50,50,50);
     height: 75vh;
+}
+
+.sql-textarea{
+    resize: none;
+    overflow: scroll;
+    width: 100%;
+    height: 62vh;
+}
+
+.sql-buttons{
+    padding-top: 25px;
 }
