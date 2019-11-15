@@ -1,0 +1,38 @@
+html,body{
+    background-color: rgb(224, 224, 224);
+    color: rgb(50,50,50);
+    width: 100%;
+}
+
+.header{
+    /**/
+}
+
+.app{
+    padding-top: 25px;
+    padding-bottom: 50px;
+}
+
+hr.header-sep{
+    border-top: 1px solid rgb(50,50,50);
+}
+
+.app-l-header{
+    border: 1px solid rgb(75,75,75);
+}
+.app-r-header{
+    border: 1px solid rgb(75,75,75);
+    border-left-color: rgba(0,0,0,0);
+}
+
+.app-l-body{
+    padding-top: 10px;
+    background-color: rgb(150,150,150);
+    height: 75vh;
+}
+
+.app-r-body{
+    padding-top: 10px;
+    background-color: rgb(50,50,50);
+    height: 75vh;
+}

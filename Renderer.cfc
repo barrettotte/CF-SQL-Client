@@ -4,12 +4,29 @@ component{
         return this;
     }
 
-    public void function renderDatasourceDropdown(){
-        writeOutput('<select name="datasources">');
-        for(var src in application.datasources){
-            //var src = ds.name;
-            //writeOutput('<option value=#src#>' & src & '</option>');
+    public string function renderAppLeft(){
+        var outHtml = '';
+        saveContent variable="outHtml"{
+            writeOutput('
+                <div class="row">
+                    <div class="col">
+                        #this.renderDatasourceDropdown()#
+                    </div>
+                </div>
+            ');
         }
-        writeOutput('</select>');
+        return outHtml;
+    }
+
+    public string function renderDatasourceDropdown(){
+        var outHtml = '';
+        saveContent variable="outHtml"{
+            writeOutput('Datasource:&nbsp;&nbsp;<select style="width:125px" name="datasources">');
+            for(var dsName in structKeyList(application.datasources)){
+                writeOutput('<option value=#dsName#>#dsName#</option>');
+            }
+            writeOutput('</select>');
+        }
+        return outHtml;
     }
 }
