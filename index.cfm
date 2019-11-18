@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
-    <script src="js/formHandler.js"></script>
+    <script src="js/handler.js"></script>
   </head>
 	<body>
     <div class="container app-header">
@@ -17,18 +17,14 @@
         </div>
       </div>
     </div>
-    <cfscript>
-      application.utils.dumpScreenN(url);
-      application.utils.dumpScreenN(request);
-    </cfscript>
     <hr class="header-sep">
     <div class="container app">
       <div class="row">
         <div class="col-md-3 app-l-body">
-          <cfinclude template="views/dbForm.cfm"/>
+          <cfinclude template="views/datasource.cfm"/>
         </div>
         <div class="col-md-9 app-r-body">
-          <cfinclude template="views/sqlForm.cfm"/>
+          <cfinclude template="views/sqlClient.cfm"/>
         </div>
       </div>
       <div class="row app-b-body">

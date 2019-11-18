@@ -2,6 +2,7 @@
 
 A simple browser SQL client for DB2 and MSSQL written with Lucee.
 This was made to just screw around with Lucee and some SQL.
+Pay no attention to the ugly JavaScript I used to tie my frontend to backend.
 
 
 ## Features

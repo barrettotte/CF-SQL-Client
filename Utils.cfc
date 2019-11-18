@@ -1,4 +1,4 @@
-component hint="Utilities accessible in application scope"{
+component hint='Utilities accessible in application scope'{
 
     public void function assertStructKeyExists(required struct st, required string key){
         if(!structKeyExists(arguments.st, arguments.key)){
@@ -7,12 +7,12 @@ component hint="Utilities accessible in application scope"{
     }
 
     public string function appEncrypt(required string decrypted){
-        this.assertStructKeyExists(application, "secretKey");
+        this.assertStructKeyExists(application, 'secretKey');
         return encrypt(arguments.decrypted, application.secretKey);
     }
 
     public string function appDecrypt(required string encrypted){
-        this.assertStructKeyExists(application, "secretKey");
+        this.assertStructKeyExists(application, 'secretKey');
         return decrypt(arguments.encrypted, application.secretKey);
     }
 
@@ -49,13 +49,13 @@ component hint="Utilities accessible in application scope"{
 
     // Dump object to console
     public void function dumpConsole(required any x){
-        dump(var=arguments.x, output="console");
+        dump(var=arguments.x, output='console');
     }
 
     // Dump object to screen with newline after
     public void function dumpScreenN(required any x){
         dump(var=arguments.x);
-        writeOutput("<br>");
+        writeOutput('<br>');
     }
 
     // Prettify a json string
@@ -66,7 +66,7 @@ component hint="Utilities accessible in application scope"{
             for(var i = 0; i < len(arguments.jsonStr); i++){
                 var char = arguments.jsonStr.substring(i, i+1);
                 if(char == '}' || char == ']'){
-                    pretty &= chr(10) & repeatString("  ", --depth);
+                    pretty &= chr(10) & repeatString('  ', --depth);
                 }
                 pretty &= char;
                 if(char == '{' || char == '[' || char == ','){
@@ -74,11 +74,11 @@ component hint="Utilities accessible in application scope"{
                     if(char == '{' || char == '['){
                         depth++;
                     }
-                    pretty &= repeatString("  ", depth)
+                    pretty &= repeatString('  ', depth)
                 }
             }
         } catch(any e){
-            throw "Error prettifying json string.";
+            throw 'Error prettifying json string.';
         }
         return pretty;
     }
