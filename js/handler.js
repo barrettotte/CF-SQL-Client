@@ -11,7 +11,7 @@ function getDatasourceInfo(){
     try{
         const ds = getDatasource();
         if(ds !== ''){
-            httpAsync('/sqlHandler.cfc?method=getDatasourceInfo&ds=' + ds, 'GET').then(resp => {
+            httpAsync('/dao/commonDao.cfc?method=getDatasourceInfo&ds=' + ds, 'GET').then(resp => {
                 const dsInfo = document.getElementById('datasourceInfo');
                 console.log(resp);
                 
@@ -41,7 +41,7 @@ function executeSql(){
             const data = {
                 'sql': 'SELECT * FROM SOMEWHERE' // TODO: get data and sanitize from textarea
             }; 
-            httpAsync('/sqlHandler.cfc?method=executeSql&ds=' + ds, 'POST', data).then(resp => {
+            httpAsync('/dao/commonDao.cfc?method=executeSql&ds=' + ds, 'POST', data).then(resp => {
                 console.log(resp);
             });
         }
