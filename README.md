@@ -55,4 +55,5 @@ Start the server with ```server start```
 * Lucee Docs - https://docs.lucee.org/index.html
 * Lucce CommandBox - https://docs.lucee.org/guides/getting-started/commandbox.html
 * Lucee Tutorials - https://lucee.org/learn/tutorials.html
+* Server reloading examples - https://gist.github.com/nicklepedde/3277959
 

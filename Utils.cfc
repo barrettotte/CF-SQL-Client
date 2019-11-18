@@ -1,4 +1,4 @@
-component{
+component hint="Utilities accessible in application scope"{
 
     public void function assertStructKeyExists(required struct st, required string key){
         if(!structKeyExists(arguments.st, arguments.key)){
@@ -50,6 +50,12 @@ component{
     // Dump object to console
     public void function dumpConsole(required any x){
         dump(var=arguments.x, output="console");
+    }
+
+    // Dump object to screen with newline after
+    public void function dumpScreenN(required any x){
+        dump(var=arguments.x);
+        writeOutput("<br>");
     }
 
     // Prettify a json string

@@ -4,6 +4,10 @@ html,body{
     width: 100%;
 }
 
+.app-header{
+    padding-top: 25px;
+}
+
 .app{
     padding-top: 25px;
     padding-bottom: 50px;
@@ -23,6 +27,10 @@ hr.header-sep{
     padding: 25px;
     background-color: rgb(50,50,50);
     height: 75vh;
+}
+
+.app-b-body{
+    padding: 25px;
 }
 
 .sql-textarea{
