@@ -1,5 +1,9 @@
 component hint='Utilities accessible in application scope'{
 
+    public any function init(){
+        return this;
+    }
+
     public void function assertStructKeyExists(required struct st, required string key){
         if(!structKeyExists(arguments.st, arguments.key)){
             throw "Key '#arguments.key#' not found in struct.";

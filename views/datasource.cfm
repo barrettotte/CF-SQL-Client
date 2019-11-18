@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col">
     Datasource:&nbsp;&nbsp;
-    <select style="width:125px" name="ds" id="datasource-select">
+    <select style="width:125px" name="ds" id="datasourceSelect">
       <cfscript>
         local.dftOpt = '<option value=""';
         if(!structKeyExists(request.data, 'datasource')){
@@ -25,18 +25,15 @@
 </div>
 <div class="row">
   <div class="col">
-    <div id="datasource-info">
+    <div id="datasourceInfo">
+      <!-- Populated with Async JS later ... -->
     </div>
-    <!-- TODO: 
-      * Connection info - IP,Port
-      * System usage - 
-    -->
   </div>
 </div>
 <hr>
 <div class="row">
   <div class="col text-center">
-    <button class="btn btn-info" id="db-btn-update">Update</button>
+    <button class="btn btn-info" id="dbBtnUpdate">Update</button>
   </div>
 </div>
 

@@ -1,7 +1,7 @@
 # CF-SQL-Client
 
-A simple browser SQL client for DB2 and MSSQL written with Lucee.
-This was made to just screw around with Lucee and some SQL.
+A simple SQL client for DB2 and MSSQL written with Lucee.
+This was made to just screw around with Lucee, JS, and some SQL.
 Pay no attention to the ugly JavaScript I used to tie my frontend to backend.
 
 

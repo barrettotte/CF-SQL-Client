@@ -13,7 +13,4 @@ component output='false' hint='SQL execution and result set handling'{
         return serializeJson(req);
     }
 
-
-    
-
 }
