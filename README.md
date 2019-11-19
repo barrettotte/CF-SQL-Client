@@ -51,6 +51,7 @@ Start the server with ```server start```
 * Display open file
 * Save sql file - new
 * Save sql file - open
+* Favicon
 
 
 ## References

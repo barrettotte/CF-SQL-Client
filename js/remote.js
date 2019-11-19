@@ -1,16 +1,4 @@
-
-window.onload = function(){
-    this.bindOnClick('dbBtnUpdate', this.getDatasourceInfo);
-    this.bindOnClick('sqlBtnRun', this.executeSql);
-    this.bindOnClick('sqlBtnClear', this.clearSql);
-    this.bindOnClick('sqlBtnLoad', this.loadSql);
-    
-    const dsSelect = document.getElementById('datasourceSelect');
-    dsSelect.onchange = this.getDatasourceInfo.bind(dsSelect);
-
-    const sqlInFile = document.getElementById('sqlInFile');
-    sqlInFile.onchange = this.uploadFile.bind(sqlInFile);
-}
+// Handle remote calls to ColdFusion
 
 function getDatasourceInfo(){
     try{
@@ -47,7 +35,7 @@ function executeSql(){
     this.blur();
 }
 
-function loadSql(){
+function fileWasUploaded(){
     try{
         console.log("Uploading file...");
         // TODO: lock sql textarea
@@ -68,40 +56,11 @@ function clearSql(){
     this.blur();
 }
 
-function uploadFile(){
+function loadSql(){
     try{
-        // async ?
-        //var reader = new FileReader(); //TODO: read file in as string, *.sql files only
         document.getElementById("sqlOpenFile").innerHTML = 'something.sql';  // TODO: file name
         // TODO: unlock sql textarea
     } catch(error){
         console.error(error);
     }
-}
-
-async function httpAsync(url, method='GET', body={}){
-    const options = { 
-        method: method,
-        headers: {'Content-Type': 'application/json'},
-    };
-    if(method === 'POST' || method === 'PUT'){
-        options['body'] = JSON.stringify(body);
-    }
-    const response = await fetch(url, options);
-    const json = await response.json();
-    return json;
-}
-
-function bindOnClick(id, f){
-    const btn = document.getElementById(id);
-    btn.onclick = f.bind(btn);
-}
-
-function getSelectedOption(id){
-    const sel = document.getElementById(id);
-    return sel.options[sel.selectedIndex].value;
-}
-
-function getDatasource(){
-    return getSelectedOption('datasourceSelect');
 }
