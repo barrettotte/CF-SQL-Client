@@ -9,7 +9,7 @@ async function httpAsync(url, method='GET', body={}){
     try{
         if(method === 'POST' || method === 'PUT'){
             options['body'] = JSON.stringify(body);
-        } // Fixes error with body in GET request
+        }
         const response = await fetch(url, options);
         json = await response.json();
     } catch(error){

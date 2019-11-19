@@ -5,10 +5,11 @@ component output='false' hint='SQL execution and result set handling'{
     }
 
     remote string function getDatasourceInfo(required string ds) returnFormat='JSON'{
-        return serializeJson({'ds': arguments.ds});
+        return serializeJson(application.datasources[arguments.ds]);
     }
 
     remote string function executeSql(required string ds) returnFormat='JSON'{
+        // TODO: sanitize SQL string
         var req = deserializeJson(toString(getHTTPRequestData().content));
         return serializeJson(req);
     }

@@ -4,10 +4,14 @@ function getDatasourceInfo(){
     try{
         const ds = getDatasource();
         if(ds !== ''){
-            httpAsync('/dao/commonDao.cfc?method=getDatasourceInfo&ds=' + ds, 'GET').then(resp => {
-                var s = '';
-                s += `<p>${resp}</p>`;
-                document.getElementById('datasourceInfo').innerHTML = s;
+            httpAsync('/handlers/sqlHandler.cfc?method=getDatasourceInfo&ds=' + ds, 'GET').then(resp => {
+                var dsInfo = JSON.parse(resp);
+                document.getElementById('datasourceInfo').innerHTML = `
+                  <ul>
+                    <li><b>Name:</b> ${dsInfo['name']}</li>
+                    <li><b>Type:</b> ${dsInfo['type']}</li>
+                  </ul>
+                `;
             });
         } else {
             document.getElementById('datasourceInfo').innerHTML = '';
@@ -23,9 +27,9 @@ function executeSql(){
         const ds = getDatasource();
         if(ds !== ""){
             const data = {
-                'sql': 'SELECT * FROM SOMEWHERE' // TODO: get data and sanitize from textarea
+                'sql': 'SELECT * FROM SOMEWHERE' // TODO: get data from file
             }; 
-            httpAsync('/dao/commonDao.cfc?method=executeSql&ds=' + ds, 'POST', data).then(resp => {
+            httpAsync('/handlers/sqlHandler.cfc?method=executeSql&ds=' + ds, 'POST', data).then(resp => {
                 console.log(resp);
             });
         }
@@ -49,7 +53,6 @@ function clearSql(){
     try{
         document.getElementById("sqlTextarea").value = '';
         document.getElementById("sqlOpenFile").innerHTML = 'untitled*';
-        // TODO: clear open file display
     } catch(error){
         console.error(error);
     }

@@ -1,4 +1,4 @@
-// handle binding buttons
+// Handle binding buttons
 
 window.onload = function(){
     this.bindOnClicks();
