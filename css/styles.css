@@ -20,13 +20,13 @@ hr.header-sep{
 .app-l-body{
     padding-top: 25px;
     background-color: rgb(150,150,150);
-    height: 75vh;
+    height: 76vh;
 }
 
 .app-r-body{
-    padding: 25px;
+    padding: 20px;
     background-color: rgb(50,50,50);
-    height: 75vh;
+    height: 76vh;
 }
 
 .app-b-body{
@@ -41,5 +41,9 @@ hr.header-sep{
 }
 
 .sql-buttons{
-    padding-top: 25px;
+    padding-top: 10px;
+}
+
+.open-file{
+    color: white;
 }

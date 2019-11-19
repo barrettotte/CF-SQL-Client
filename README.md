@@ -48,6 +48,9 @@ Start the server with ```server start```
 
 ## To Do
 * Allow tab in textarea (js)
+* Display open file
+* Save sql file - new
+* Save sql file - open
 
 
 ## References

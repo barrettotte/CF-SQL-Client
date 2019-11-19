@@ -2,7 +2,12 @@
 window.onload = function(){
     this.bindOnClick('dbBtnUpdate', this.getDatasourceInfo);
     this.bindOnClick('sqlBtnRun', this.executeSql);
+    this.bindOnClick('sqlBtnClear', this.clearSql);
+    this.bindOnClick('sqlBtnLoad', this.loadSql);
     
+    const dsSelect = document.getElementById('datasourceSelect');
+    dsSelect.onchange = this.getDatasourceInfo.bind(dsSelect);
+
     const sqlInFile = document.getElementById('sqlInFile');
     sqlInFile.onchange = this.uploadFile.bind(sqlInFile);
 }
@@ -12,21 +17,12 @@ function getDatasourceInfo(){
         const ds = getDatasource();
         if(ds !== ''){
             httpAsync('/dao/commonDao.cfc?method=getDatasourceInfo&ds=' + ds, 'GET').then(resp => {
-                const dsInfo = document.getElementById('datasourceInfo');
-                console.log(resp);
-                
-                var info = document.createElement('p');
-                info.setAttribute('id', 'dsInfoTest')
-                info.textContent = resp;
-                
-                // TODO: figure out how to do this ...
-                dsInfo.appendChild(info);
-
-                /* TODO: 
-                    * Connection info - IP,Port
-                    * System usage - 
-                */
+                var s = '';
+                s += `<p>${resp}</p>`;
+                document.getElementById('datasourceInfo').innerHTML = s;
             });
+        } else {
+            document.getElementById('datasourceInfo').innerHTML = '';
         }
     } catch(error){
         console.error(error);
@@ -51,10 +47,33 @@ function executeSql(){
     this.blur();
 }
 
+function loadSql(){
+    try{
+        console.log("Uploading file...");
+        // TODO: lock sql textarea
+    } catch(error){
+        console.error(error);
+    }
+    this.blur();
+}
+
+function clearSql(){
+    try{
+        document.getElementById("sqlTextarea").value = '';
+        document.getElementById("sqlOpenFile").innerHTML = 'untitled*';
+        // TODO: clear open file display
+    } catch(error){
+        console.error(error);
+    }
+    this.blur();
+}
+
 function uploadFile(){
     try{
-        var reader = new FileReader(); //TODO: read file in as string
-        console.log("Uploading file...");
+        // async ?
+        //var reader = new FileReader(); //TODO: read file in as string, *.sql files only
+        document.getElementById("sqlOpenFile").innerHTML = 'something.sql';  // TODO: file name
+        // TODO: unlock sql textarea
     } catch(error){
         console.error(error);
     }
