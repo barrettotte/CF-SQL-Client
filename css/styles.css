@@ -38,6 +38,9 @@ hr.header-sep{
     overflow: scroll;
     width: 100%;
     height: 62vh;
+    border-left: 8px solid white;
+    border-top: 8px solid white;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
 }
 
 .sql-buttons{

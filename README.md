@@ -15,6 +15,11 @@ Pay no attention to the ugly JavaScript I used to tie my frontend to backend.
 * Basic database browser - schemas, tables, procs, system info, etc.
 
 
+## Limitations
+* SQL input can have multiple statements and are parsed using ';' as a delimiter.
+* Each query is limited to 100 rows per statement execution.
+
+
 ## Setup
 Enter datasources into **config.json**
 ```javascript
@@ -48,7 +53,6 @@ Start the server with ```server start```
 
 ## To Do
 * Allow tab in textarea (js)
-* Display open file
 * Save sql file - new
 * Save sql file - open
 * Sql file states - untitled,unsaved,saved
@@ -62,4 +66,5 @@ Start the server with ```server start```
 * Lucce CommandBox - https://docs.lucee.org/guides/getting-started/commandbox.html
 * Lucee Tutorials - https://lucee.org/learn/tutorials.html
 * Server reloading examples - https://gist.github.com/nicklepedde/3277959
+* Datasources in CF - https://coldfusion.adobe.com/2014/08/application-datasources-in-coldfusion/
 

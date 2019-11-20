@@ -8,9 +8,9 @@
           local.dftOpt &= ' selected';
         }
         writeOutput(local.dftOpt & '>--------------</option>');
-        for(var dsName in structKeyList(application.datasources)){
-          local.option = '<option value=#dsName#';
-          local.option &= '>#dsName#</option>';
+        for(local.dsName in structKeyList(application.datasources)){
+          local.option = '<option value=#local.dsName#';
+          local.option &= '>#local.dsName#</option>';
           writeOutput(local.option);
         }
       </cfscript>

@@ -6,6 +6,7 @@ function getDatasourceInfo(){
         if(ds !== ''){
             httpAsync('/handlers/sqlHandler.cfc?method=getDatasourceInfo&ds=' + ds, 'GET').then(resp => {
                 var dsInfo = JSON.parse(resp);
+                console.log(dsInfo);
                 document.getElementById('datasourceInfo').innerHTML = `
                   <ul>
                     <li><b>Name:</b> ${dsInfo['name']}</li>
@@ -27,7 +28,7 @@ function executeSql(){
         const ds = getDatasource();
         if(ds !== ""){
             const data = {
-                'sql': 'SELECT * FROM SOMEWHERE' // TODO: get data from file
+                'sql': getSqlTextarea().value
             }; 
             httpAsync('/handlers/sqlHandler.cfc?method=executeSql&ds=' + ds, 'POST', data).then(resp => {
                 console.log(resp);
@@ -39,10 +40,16 @@ function executeSql(){
     this.blur();
 }
 
-function fileWasUploaded(){
+function loadFile(){
     try{
-        console.log("Uploading file...");
-        // TODO: lock sql textarea
+        const files = document.getElementById('sqlInFile').files;
+        if(files.length > 0){
+            const file = files[0];
+            fileToString(file, (s) => {
+                getSqlOpenFilename().innerHTML = file.name;
+                getSqlTextarea().value = s;
+            });
+        }
     } catch(error){
         console.error(error);
     }
@@ -51,19 +58,11 @@ function fileWasUploaded(){
 
 function clearSql(){
     try{
-        document.getElementById("sqlTextarea").value = '';
-        document.getElementById("sqlOpenFile").innerHTML = 'untitled*';
+        getSqlTextarea().value = '';
+        getSqlOpenFilename().innerHTML = 'untitled*';
     } catch(error){
         console.error(error);
     }
     this.blur();
 }
 
-function loadSql(){
-    try{
-        document.getElementById("sqlOpenFile").innerHTML = 'something.sql';  // TODO: file name
-        // TODO: unlock sql textarea
-    } catch(error){
-        console.error(error);
-    }
-}

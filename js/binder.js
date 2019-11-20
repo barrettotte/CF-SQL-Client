@@ -15,7 +15,6 @@ function bindOnClicks(){
     this.bindOnClick('dbBtnUpdate', getDatasourceInfo);
     this.bindOnClick('sqlBtnRun', executeSql);
     this.bindOnClick('sqlBtnClear', clearSql);
-    this.bindOnClick('sqlBtnLoad', loadSql);
 }
 
 function bindOnChanges(){
@@ -23,5 +22,5 @@ function bindOnChanges(){
     dsSelect.onchange = getDatasourceInfo.bind(dsSelect);
 
     const sqlInFile = document.getElementById('sqlInFile');
-    sqlInFile.onchange = fileWasUploaded.bind(sqlInFile);
+    sqlInFile.onchange = loadFile.bind(sqlInFile);
 }

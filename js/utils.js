@@ -1,5 +1,17 @@
 // Misc utilities
 
+function fileToString(file, callback){
+    const reader = new FileReader();
+    try{
+        reader.readAsText(file);
+        reader.onload = () => {
+            callback(reader.result);
+        }
+    } catch(error){
+        console.error(error);
+    }
+}
+
 async function httpAsync(url, method='GET', body={}){
     const options = { 
         method: method,
@@ -28,10 +40,10 @@ function getDatasource(){
     return getSelectedOption('datasourceSelect');
 }
 
-function readFile(){
-    try{
-        // TODO: read file contents and return it
-    } catch(error){
-        console.error(error);
-    }
+function getSqlTextarea(){
+    return document.getElementById("sqlTextarea");
+}
+
+function getSqlOpenFilename(){
+    return document.getElementById("sqlOpenFile");
 }

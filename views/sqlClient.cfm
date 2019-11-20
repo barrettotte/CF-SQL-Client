@@ -9,7 +9,7 @@
     <div class="row text-center sql-buttons">
       <div class="col">
         <label for="sqlInFile" class="btn btn-secondary" id="sqlBtnLoad">Load</label>
-        <input type="file" id="sqlInFile" style="display:none"/>
+        <input type="file" id="sqlInFile" style="display:none" accept=".sql,.SQL"/>
       </div>
       <div class="col">
         <button class="btn btn-info" id="sqlBtnSave">Save</button>

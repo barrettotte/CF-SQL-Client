@@ -9,7 +9,7 @@ component{
             if(!structKeyExists(config, "secretKey")){
                 var secretKey = generateSecretKey("AES", 128);
                 var newConfig = {'secretKey': secretKey, 'datasources': arrayNew(1)};
-                for(var ds in local.config.datasources){
+                for(var ds in config.datasources){
                     ds['username'] = encrypt(ds['username'], secretKey);
                     ds['password'] = encrypt(ds['password'], secretKey);
                     arrayAppend(newConfig['datasources'], ds);

@@ -19,6 +19,9 @@
         </div>
       </div>
     </div>
+    <cfscript>
+      dump(var=application);
+    </cfscript>
     <hr class="header-sep">
     <div class="container app">
       <div class="row">
