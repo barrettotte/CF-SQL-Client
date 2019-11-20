@@ -31,18 +31,22 @@ component output='false' hint='SQL execution and result set handling'{
     }
 
     private struct function executeStatement(required string sql, required string dsName){
-        var result = structNew();
-        result.sql = sql;
+        var result = {'sql': arguments.sql};
         var datasource = application.datasources[arguments.dsName];
+        var options = {
+            'datasource': arguments.dsName,
+            'timeout':    application.config.timeout, 
+            'maxRows':    application.config.maxrows
+        };
+        dump(var=datasource, output='console');
+        //throw "STOP HERE";
 
-        result.resultsets = queryExecute(arguments.sql, {}, {
-            dbtype="query",
-            datasource=arguments.dsName,
-            username=application.utils.appDecrypt(datasource.username),
-            password=application.utils.appDecrypt(datasource.password),
-            timeout=5,
-            maxRows=100
-        });
+        // If username and password not found, its assumed integratedSecurity is being used
+        if(structKeyExists(datasource, 'username') && structKeyExists(datasource, 'password')){
+            options['username'] = application.utils.appDecrypt(datasource.username);
+            options['password'] = application.utils.appDecrypt(datasource.password);
+        }
+        result.resultsets = queryExecute(sql=arguments.sql, options=options, params=structNew());
         return result;
     }
 
@@ -56,6 +60,7 @@ component output='false' hint='SQL execution and result set handling'{
         switch(arguments.className){
             case 'com.microsoft.jdbc.sqlserver.SQLServerDriver':
                 return 'MSSQL';
+            // TODO: db2 driver
         }
         throw "Unhandled driver class type '" & arguments.className & "'";
     }

@@ -1,10 +1,10 @@
-// Handle remote calls to ColdFusion
+// Handle remote calls to ColdFusion and some DOM manipulation
 
 function getDatasourceInfo(){
     try{
         const ds = getDatasource();
         if(ds !== ''){
-            httpAsync('/handlers/sqlHandler.cfc?method=getDatasourceInfo&ds=' + ds, 'GET').then(resp => {
+            httpAsync('/sqlHandler.cfc?method=getDatasourceInfo&ds=' + ds, 'GET').then(resp => {
                 var dsInfo = JSON.parse(resp);
                 console.log(dsInfo);
                 document.getElementById('datasourceInfo').innerHTML = `
@@ -27,13 +27,20 @@ function executeSql(){
     try{
         const ds = getDatasource();
         if(ds !== ""){
-            const data = {
-                'sql': getSqlTextarea().value
-            }; 
-            httpAsync('/handlers/sqlHandler.cfc?method=executeSql&ds=' + ds, 'POST', data).then(resp => {
+            const data = { 'sql': getSqlTextarea().value }; 
+            httpAsync('/sqlHandler.cfc?method=executeSql&ds=' + ds, 'POST', data).then(resp => {
                 console.log(resp);
             });
         }
+    } catch(error){
+        console.error(error);
+    }
+    this.blur();
+}
+
+function saveSql(){
+    try{
+        alert('Not implemented!'); // TODO:
     } catch(error){
         console.error(error);
     }

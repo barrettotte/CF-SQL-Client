@@ -36,14 +36,9 @@ function getSelectedOption(id){
     return sel.options[sel.selectedIndex].value;
 }
 
-function getDatasource(){
-    return getSelectedOption('datasourceSelect');
-}
+var getDatasource = () => getSelectedOption('datasourceSelect');
 
-function getSqlTextarea(){
-    return document.getElementById("sqlTextarea");
-}
+var getSqlTextarea = () => document.getElementById("sqlTextarea");
 
-function getSqlOpenFilename(){
-    return document.getElementById("sqlOpenFile");
-}
+var getSqlOpenFilename = () => document.getElementById("sqlOpenFile");
+

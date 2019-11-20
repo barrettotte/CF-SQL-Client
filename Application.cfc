@@ -5,21 +5,14 @@ component output='false' hint='A basic SQL Client for MSSQL and DB2'{
     }
 
     function onRequestStart(required string targetPage){
-        request.serverTime = now();
+        // Manually refresh application - http://127.0.0.1:1234/index.cfm?reloadApp
         if(structKeyExists(url, 'reloadApp')){
             this.reload();
-        } // Manually refresh application - http://127.0.0.1:1234/index.cfm?reloadApp
-
-        // Process request event and route to appropriate controller
-        request.event = arrayNew(1);
-        if(!isNull(url.event) && len(trim(url.event))){
-            request.event = listToArray(trim(url.event), '.');
         }
-        request.data = structNew();
     }
 
     public void function reload(){
-        try{            
+        try{
             application.utils = createObject('component', 'utils').init();
             this.loadConfiguration('config.json');
         } catch(any e){
@@ -28,25 +21,47 @@ component output='false' hint='A basic SQL Client for MSSQL and DB2'{
     }
 
     // Load relevant configuration data into application scope
-    public void function loadConfiguration(required string configPath){
-        var config = application.utils.readJsonFile(arguments.configPath);
-        if(!structKeyExists(config, "secretKey")){
+    private void function loadConfiguration(required string configPath){
+        application.config = structNew();
+        local.config = application.utils.readJsonFile(arguments.configPath);
+        if(!structKeyExists(local.config, 'secretKey')){
             throw "Credentials have not been encrypted. Please run 'task run tasks/setup'.";
         }
-        for(local.ds in config.datasources){
+        this.loadDatasources(local.config);
+        application.config.timeout = structKeyExists(local.config, 'timeout') ? local.config['timeout'] : 5;
+        application.config.maxrows = structKeyExists(local.config, 'maxrows') ? local.config['maxrows'] : 100;
+        application.config.secretKey = local.config.secretKey;
+    }
+
+    private void function loadDatasources(required struct config){
+        if(!structKeyExists(arguments.config, 'datasources')){
+            throw "Key 'datasources' was not found in configuration file.";
+        }
+        for(local.dsConfig in arguments.config.datasources){
             try{
-                local.newDatasource = {
-                    'class':            local.ds['class'],
-                    'connectionString': local.ds['connectionString'],
-                    'username':         local.ds['username'],
-                    'password':         local.ds['password']
+                local.datasource = {
+                    'class':            local.dsConfig['class'],
+                    'connectionString': local.dsConfig['connectionString'],
                 };
-                application.datasources[local.ds.name] = local.newDatasource;
-                this.datasources[local.ds.name] = local.newDatasource;
+                if(findNoCase('integratedSecurity', local.datasource.connectionString) == 0){
+                    local.datasource['username'] = local.dsConfig['username'];
+                    local.datasource['password'] = local.dsConfig['password'];
+                }
+                application.datasources[local.dsConfig.name] = local.datasource;
             } catch(any e){
                 application.utils.handleError(errMsg="Error reading datasource configuration.", e=e, isFatal=true);
             }
         }
-        application.secretKey = config.secretKey;
+    }
+
+    public array function getDatasources(){
+        return this.datasources();
+    }
+
+    public struct function getDatasource(required string dsName){
+        if(structKeyExists(this.datasources, arguments.dsName)){
+            return this.datasources[arguments.dsName];
+        }
+        throw "Could not find datasource with key '#arguments.dsName#'.";
     }
 }

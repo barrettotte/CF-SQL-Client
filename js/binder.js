@@ -15,6 +15,7 @@ function bindOnClicks(){
     this.bindOnClick('dbBtnUpdate', getDatasourceInfo);
     this.bindOnClick('sqlBtnRun', executeSql);
     this.bindOnClick('sqlBtnClear', clearSql);
+    this.bindOnClick('sqlBtnSave', saveSql);
 }
 
 function bindOnChanges(){

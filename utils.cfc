@@ -11,13 +11,13 @@ component hint='Utilities accessible in application scope'{
     }
 
     public string function appEncrypt(required string decrypted){
-        this.assertStructKeyExists(application, 'secretKey');
-        return encrypt(arguments.decrypted, application.secretKey);
+        this.assertStructKeyExists(application.config, 'secretKey');
+        return encrypt(arguments.decrypted, application.config.secretKey);
     }
 
     public string function appDecrypt(required string encrypted){
-        this.assertStructKeyExists(application, 'secretKey');
-        return decrypt(arguments.encrypted, application.secretKey);
+        this.assertStructKeyExists(application.config, 'secretKey');
+        return decrypt(arguments.encrypted, application.config.secretKey);
     }
 
     // Read json file into struct

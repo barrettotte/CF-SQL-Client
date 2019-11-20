@@ -1,18 +1,18 @@
 # CF-SQL-Client
 
-A simple SQL client for DB2 and MSSQL written with Lucee.
+A simple SQL client for MSSQL and IBMi DB2 written with Lucee, Bootstrap, and a bit of vanilla JS.
+
 This was made to just screw around with Lucee, JS, and some SQL.
-Pay no attention to the ugly JavaScript I used to tie my frontend to backend.
+Its just a toy and by no means should be used seriously or at all.
 
 
 ## Features
-* Selectable datasource
-* Detect datasource type - DB2,MSSQL,Unknown
-* Enter SQL string in textbox with Syntax highlighting
-* Execute SQL string
-* Basic error handling
-* Pretty print resultsets with Bootstrap
-* Basic database browser - schemas, tables, procs, system info, etc.
+* IBMi DB2 and MSSQL support - only ones relevant to me currently
+* SQL syntax highlighting
+* Execute multiple SQL statements
+* File loading and saving
+* Resultset output with bootstrap
+* Basic database information output
 
 
 ## Limitations
@@ -28,9 +28,9 @@ Enter datasources into **config.json**
   "datasources": [
     {
       "name":"MY_MSSQL",
-      "type":"mssql",
+      "type":"MSSQL",
       "class":"com.microsoft.jdbc.sqlserver.SQLServerDriver",
-      "connectionString":"jdbc:sqlserver://someserver:1433",
+      "connectionString":"jdbc:sqlserver://someserver:1433;DATABASE_NAME",
       "username":"myuser",    // These will be encrypted
       "password":"mypassword" //   in the next step
     }
@@ -52,14 +52,23 @@ Start the server with ```server start```
 
 
 ## To Do
-* Allow tab in textarea (js)
+* Allow tab keypress in textarea (js)
 * Save sql file - new
 * Save sql file - open
-* Sql file states - untitled,unsaved,saved
-* Favicon
+* Timeout and maxrows in configuration
+* Save resultset to JSON file
+
+
+## Improvements
+NOTE: These will never be done lol
+* Better error handling
+* Better statement parsing - comments
+* Loading animation when loading file or executing query
+* Database object browser - schemas, tables, columns
 
 
 ## References
+* CF Admin - http://server:port/lucee/admin/web.cfm
 * CommandBox - https://www.ortussolutions.com/products/commandbox
 * **Learn Modern ColdFusion in 100 Minutes** - https://modern-cfml.ortusbooks.com/
 * Lucee Docs - https://docs.lucee.org/index.html
@@ -67,4 +76,4 @@ Start the server with ```server start```
 * Lucee Tutorials - https://lucee.org/learn/tutorials.html
 * Server reloading examples - https://gist.github.com/nicklepedde/3277959
 * Datasources in CF - https://coldfusion.adobe.com/2014/08/application-datasources-in-coldfusion/
-
+* Generated favicon with https://favicon.io/
