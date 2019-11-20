@@ -1,22 +1,13 @@
 component output='false' hint='A basic SQL Client for MSSQL and DB2'{
 
     function onApplicationStart(){
-        application.initTime = now();
-        try{            
-            application.utils = createObject('component', 'utils').init();
-            this.loadConfiguration('config.json');
-        } catch(any e){
-            application.utils.handleError(errMsg='Error starting application.', e=e, isFatal=true, toScreen=true);
-        }
+        this.reload();
     }
 
     function onRequestStart(required string targetPage){
         request.serverTime = now();
-
         if(structKeyExists(url, 'reloadApp')){
-            systemCacheClear(cacheName='all');
-            this.onApplicationStart();
-            this.onSessionStart();
+            this.reload();
         } // Manually refresh application - http://127.0.0.1:1234/index.cfm?reloadApp
 
         // Process request event and route to appropriate controller
@@ -25,6 +16,15 @@ component output='false' hint='A basic SQL Client for MSSQL and DB2'{
             request.event = listToArray(trim(url.event), '.');
         }
         request.data = structNew();
+    }
+
+    public void function reload(){
+        try{            
+            application.utils = createObject('component', 'utils').init();
+            this.loadConfiguration('config.json');
+        } catch(any e){
+            application.utils.handleError(errMsg='Error starting application.', e=e, isFatal=true, toScreen=true);
+        }
     }
 
     // Load relevant configuration data into application scope
@@ -41,10 +41,8 @@ component output='false' hint='A basic SQL Client for MSSQL and DB2'{
                     'username':         local.ds['username'],
                     'password':         local.ds['password']
                 };
-
                 application.datasources[local.ds.name] = local.newDatasource;
                 this.datasources[local.ds.name] = local.newDatasource;
-
             } catch(any e){
                 application.utils.handleError(errMsg="Error reading datasource configuration.", e=e, isFatal=true);
             }
