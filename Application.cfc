@@ -13,7 +13,7 @@ component output='false' hint='A basic SQL Client for MSSQL and DB2'{
 
     public void function reload(){
         try{
-            application.utils = createObject('component', 'utils').init();
+            application.utils = createObject('component', 'components.utils').init();
             this.loadConfiguration('config.json');
         } catch(any e){
             application.utils.handleError(errMsg='Error starting application.', e=e, isFatal=true, toScreen=true);
@@ -62,6 +62,6 @@ component output='false' hint='A basic SQL Client for MSSQL and DB2'{
         if(structKeyExists(this.datasources, arguments.dsName)){
             return this.datasources[arguments.dsName];
         }
-        throw "Could not find datasource with key '#arguments.dsName#'.";
+        application.utils.handleError(errMsg="Could not find datasource with key '#arguments.dsName#'.");
     }
 }

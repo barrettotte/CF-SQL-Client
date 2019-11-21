@@ -29,10 +29,6 @@ hr.header-sep{
     height: 76vh;
 }
 
-.app-b-body{
-    padding: 25px;
-}
-
 .sql-textarea{
     resize: none;
     overflow: scroll;
@@ -49,4 +45,9 @@ hr.header-sep{
 
 .open-file{
     color: white;
+}
+
+.horizontal-scrollable{ 
+    width: 100%; 
+    overflow-x: auto;
 }

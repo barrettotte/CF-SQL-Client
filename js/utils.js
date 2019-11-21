@@ -12,22 +12,28 @@ function fileToString(file, callback){
     }
 }
 
-async function httpAsync(url, method='GET', body={}){
-    const options = { 
-        method: method,
-        headers: {'Content-Type': 'application/json'},
-    };
-    var json = '';
+async function remoteCfAsync(url, method='GET', body={}){
     try{
+        const options = {method: method, headers: {'Content-Type': 'application/json'}};
         if(method === 'POST' || method === 'PUT'){
             options['body'] = JSON.stringify(body);
         }
         const response = await fetch(url, options);
-        json = await response.json();
+        return await response.json();
     } catch(error){
         console.error(error);
     }
-    return json;
+    throw 'Async request to remote CF method did not complete.';
+}
+
+// Check if string is able to be parsed to JSON
+function isJson(s) {
+    try {
+        JSON.parse(s);
+    } catch (e) {
+        return false;
+    }
+    return true;
 }
 
 // Get selected option of a 'select' element

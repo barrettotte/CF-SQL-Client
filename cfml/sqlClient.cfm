@@ -12,9 +12,6 @@
         <input type="file" id="sqlInFile" style="display:none" accept=".sql,.SQL"/>
       </div>
       <div class="col">
-        <button class="btn btn-info" id="sqlBtnSave">Save</button>
-      </div>
-      <div class="col">
         <button class="btn btn-success" id="sqlBtnRun">Run</button>
       </div>
       <div class="col">

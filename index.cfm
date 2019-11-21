@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
     <script src="js/utils.js"></script>
-    <script src="js/remote.js"></script>
+    <script src="js/handler.js"></script>
     <script src="js/binder.js"></script>
   </head>
 	<body>
@@ -19,22 +19,19 @@
         </div>
       </div>
     </div>
-    <cfscript>
-      dump(var=application);
-    </cfscript>
     <hr class="header-sep">
     <div class="container app">
       <div class="row">
         <div class="col-md-3 app-l-body">
-          <cfinclude template="views/datasource.cfm"/>
+          <cfinclude template="cfml/datasource.cfm"/>
         </div>
         <div class="col-md-9 app-r-body">
-          <cfinclude template="views/sqlClient.cfm"/>
+          <cfinclude template="cfml/sqlClient.cfm"/>
         </div>
       </div>
-      <div class="row app-b-body">
-        <cfinclude template="views/resultset.cfm"/>
-      </div>
+    </div>
+    <div id="resultsetContent" class="text-center">
+      <!-- Rendered after SQL execution -->
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

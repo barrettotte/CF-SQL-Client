@@ -7,6 +7,14 @@
       "connectionString": "jdbc:sqlserver://someserver:1433",
       "username": "myuser",
       "password": "mypassword"
+    },
+    {
+      "name":"MY_IBMi",
+      "type":"IBMi DB2",
+      "class":"com.ibm.as400.access.AS400JDBCDriver",
+      "connectionString":"jdbc:as400://someserver/;prompt=false;naming=system;libraries=*LIBL",
+      "username":"myuser",
+      "password":"mypassword"
     }
   ]
 }

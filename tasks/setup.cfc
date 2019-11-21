@@ -7,11 +7,11 @@ component{
             var configPath = "../config.json";
             var config = this.readJsonFile(configPath);
             if(!structKeyExists(config, "secretKey")){
-                var secretKey = generateSecretKey("AES", 128);
+                var secretKey = randRange(0, 2048, 'SHA1PRNG'); // used in XOR encryption
                 var newConfig = {'secretKey': secretKey, 'datasources': arrayNew(1)};
                 for(var ds in config.datasources){
-                    ds['username'] = encrypt(ds['username'], secretKey);
-                    ds['password'] = encrypt(ds['password'], secretKey);
+                    ds['username'] = this.xorEncrypt(ds['username'], secretKey);
+                    ds['password'] = this.xorEncrypt(ds['password'], secretKey);
                     arrayAppend(newConfig['datasources'], ds);
                 }
                 fileWrite(configPath, this.prettifyJson(serializeJson(newConfig)));
@@ -23,15 +23,23 @@ component{
         }
     }
 
+    private string function xorEncrypt(required string toEncrypt, required string secretKey){
+        local.encrypted = '';
+        for (var i = 1; i <= len(arguments.toEncrypt); i++){
+            local.encrypted &= chr(bitXor(asc(mid(arguments.toEncrypt, i, 1)), arguments.secretKey) % 256);
+        }
+        return local.encrypted;
+    }
+
     private struct function readJsonFile(required string path){
-        var fullPath = expandPath(arguments.path);
+        local.fullPath = expandPath(arguments.path);
         try{
             if(fileExists(arguments.path)){
-                return deserializeJson(fileRead(path));
+                return deserializeJson(fileRead(arguments.path));
             }
-            throw "Could not find file at '#fullPath#'.";
+            throw "Could not find file at '#local.fullPath#'.";
         } catch(any e){
-            throw "Error occurred reading file at '#fullPath#'.";
+            throw "Error occurred reading file at '#local.fullPath#'.";
         }
         return null;
     }

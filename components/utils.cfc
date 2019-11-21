@@ -10,26 +10,60 @@ component hint='Utilities accessible in application scope'{
         }
     }
 
-    public string function appEncrypt(required string decrypted){
-        this.assertStructKeyExists(application.config, 'secretKey');
-        return encrypt(arguments.decrypted, application.config.secretKey);
+    public string function appEncrypt(required string toEncrypt, string algorithm = 'XOR'){
+        try{
+            this.assertStructKeyExists(application.config, 'secretKey');
+            if(arguments.algorithm == 'XOR'){
+                return this.xorEncrypt(arguments.toEncrypt, application.config.secretKey);
+            } 
+            else if(arguments.algorithm == 'AES'){
+                return encrypt(string=arguments.toEncrypt, key=application.config.secretKey, 
+                    algorithm='AES', encoding='Base64', iterations=500);
+            }
+            else {
+                throw "Unsupported encryption algorithm '#arguments.algorithm#'.";
+            }
+        } catch(any e){
+            this.handleError(errMsg="Error occurred encrypting string.", e=e, isFatal=true);
+        }
     }
 
-    public string function appDecrypt(required string encrypted){
-        this.assertStructKeyExists(application.config, 'secretKey');
-        return decrypt(arguments.encrypted, application.config.secretKey);
+    public string function appDecrypt(required string toDecrypt, string algorithm = 'XOR'){
+        try{
+            this.assertStructKeyExists(application.config, 'secretKey');
+            if(arguments.algorithm == 'XOR'){
+                return this.xorEncrypt(arguments.toDecrypt, application.config.secretKey);
+            }
+            else if(arguments.algorithm == 'AES'){
+                return decrypt(encrypted_string=arguments.toDecrypt, key=application.config.secretKey,
+                    algorithm='AES', encoding='Base64', iterations=500);
+            } else {
+                throw "Unsupported encryption algorithm '#arguments.algorithm#'.";
+            }
+        } catch(any e){
+            this.handleError(errMsg="Error occurred decrypting string.", e=e, isFatal=true);
+        }
+    }
+
+    // Simple XOR encryption. Handles encrypting/decrypting.
+    private string function xorEncrypt(required string toEncrypt, required string secretKey){
+        local.encrypted = '';
+        for (var i = 1; i <= len(arguments.toEncrypt); i++){
+            local.encrypted &= chr(bitXor(asc(mid(arguments.toEncrypt, i, 1)), arguments.secretKey) % 256);
+        }
+        return local.encrypted;
     }
 
     // Read json file into struct
     public struct function readJsonFile(required string path){
-        var fullPath = expandPath(arguments.path);
+        local.fullPath = expandPath(arguments.path);
         try{
             if(fileExists(arguments.path)){
-                return deserializeJson(fileRead(path));
+                return deserializeJson(fileRead(arguments.path));
             }
-            throw "Could not find file at '#fullPath#'.";
+            throw "Could not find file at '#local.fullPath#'.";
         } catch(any e){
-            throw "Error occurred reading file at '#fullPath#'.";
+            throw "Error occurred reading file at '#local.fullPath#'.";
         }
         return null;
     }

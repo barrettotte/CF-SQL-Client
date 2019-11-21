@@ -15,9 +15,13 @@ Its just a toy and by no means should be used seriously or at all.
 * Basic database information output
 
 
-## Limitations
+## Limitations / Issues
+* My encryption for credentials is just XOR encryption with a random number between 0 and 2048 lol...this is just a mess around project anyway.
+* I wanted to use integrated security for MSSQL, but I ran into a bunch of issues. Its just easier to do user/password for setting up the datasource.
 * SQL input can have multiple statements and are parsed using ';' as a delimiter.
+* Comments aren't parsed right at all...I have no intention to fix it either.
 * Each query is limited to 100 rows per statement execution.
+* There's no guarantee that cloning and setting this up will even work. CommandBox sucks to setup, it doesn't work half the time.
 
 
 ## Setup
@@ -53,15 +57,16 @@ Start the server with ```server start```
 
 ## To Do
 * Allow tab keypress in textarea (js)
-* Save sql file - new
-* Save sql file - open
-* Timeout and maxrows in configuration
-* Save resultset to JSON file
+* DB2 info
+* Basic error handling
 
 
 ## Improvements
 NOTE: These will never be done lol
+* Save textarea content to file
+* Save resultset to JSON file
 * Better error handling
+* Better encryption, xor encryption is insanely weak
 * Better statement parsing - comments
 * Loading animation when loading file or executing query
 * Database object browser - schemas, tables, columns
@@ -77,3 +82,4 @@ NOTE: These will never be done lol
 * Server reloading examples - https://gist.github.com/nicklepedde/3277959
 * Datasources in CF - https://coldfusion.adobe.com/2014/08/application-datasources-in-coldfusion/
 * Generated favicon with https://favicon.io/
+* SQL Server Operating System Docs - https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sql-server-operating-system-related-dynamic-management-views-transact-sql?view=sql-server-ver15
