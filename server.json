@@ -7,5 +7,6 @@
         "args":"-Dlucee-extensions=037A27FF-0B80-4CBA-B954BEBD790B460E -javaagent:\\commandBox\\engine\\cfml\\cli\\lucee-server\\context\\lucee-external-agent.jar"
     },
     "name":"CF-SQL-Client",
-    "trayEnable":false
+    "trayEnable":false,
+    "libDirs": "/jars"
 }

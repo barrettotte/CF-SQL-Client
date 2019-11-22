@@ -34,6 +34,8 @@ Its just a toy and by no means should be used seriously or at all.
 
 
 ## Setup
+Download ```jt400-9.6-jt400_jdk8.jar``` from http://jt400.sourceforge.net/ and place in server directory under **/jars** directory.
+
 Enter datasources into **config.json**
 ```javascript
 // config.json
@@ -88,3 +90,4 @@ NOTE: These will never be done
 * Generated favicon with https://favicon.io/
 * SQL Server Operating System Docs - https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sql-server-operating-system-related-dynamic-management-views-transact-sql?view=sql-server-ver15
 * Lucee 3rd party jars - https://docs.lucee.org/guides/working-with-source/3rd-party-libraries.html
+* JT400 Jar - http://jt400.sourceforge.net/

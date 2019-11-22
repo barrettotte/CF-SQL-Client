@@ -5,7 +5,7 @@
         <p class="open-file" id="sqlOpenFile">untitled*</p>
       </div>
     </div>
-    <textarea class="sql-textarea" id="sqlTextarea" autofocus name="sql" wrap="off"></textarea>
+    <textarea class="sql-textarea" id="sqlTextarea" autofocus name="sql" wrap="off" spellcheck="false"></textarea>
     <div class="row text-center sql-buttons">
       <div class="col">
         <label for="sqlInFile" class="btn btn-secondary" id="sqlBtnLoad">Load</label>
