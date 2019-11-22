@@ -64,12 +64,6 @@ Start the server with ```server start```
 * All in one ```CommandBox> restart && server log --follow```
 
 
-## To Do
-* Allow tab keypress in textarea (js)
-* DB2 info
-* Basic error handling
-
-
 ## Improvements
 NOTE: These will never be done
 * SQL Syntax highlighting
