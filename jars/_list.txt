@@ -1,0 +1,3 @@
+jt400-9.6-jt400_jdk8.jar
+mssql-jdbc-7.0.0.jre8.jar
+sqljdbc4.jar

@@ -3,9 +3,11 @@
 function getDatasourceInfo(){
     try{
         const ds = getDatasource();
+        getResultsetContent().innerHTML = ''; // when datasource changes, clear out resultset
         if(ds !== ''){
             remoteCfAsync('/components/sqlHandler.cfc?method=getDatasourceInfo&ds=' + ds, 'GET').then(resp => {
                 const respJson = JSON.parse(resp);
+                console.log(respJson);
                 if(respJson['STATUS'] === 200 && respJson['ERROR'].length === 0){
                     remoteCfAsync('/components/renderer.cfc?method=renderDatasourceInfo', 'POST', respJson['DATA']).then(render => {
                         document.getElementById('datasourceInfo').innerHTML = JSON.parse(render)['DATA']['HTML'];
@@ -30,9 +32,10 @@ function executeSql(){
                 const data = { 'sql': getSqlTextarea().value }; 
                 remoteCfAsync('/components/sqlHandler.cfc?method=executeSql&ds=' + ds, 'POST', data).then(resp => {
                     const respJson = JSON.parse(resp);
+                    console.log(respJson);
                     if(respJson['STATUS'] === 200 && respJson['ERROR'].length === 0){
                         remoteCfAsync('/components/renderer.cfc?method=renderResultsets', 'POST', respJson['DATA']['results']).then(render => {
-                            document.getElementById('resultsetContent').innerHTML = JSON.parse(render)['DATA']['HTML'];
+                            getResultsetContent().innerHTML = JSON.parse(render)['DATA']['HTML'];
                         });
                     } else{
                         //TODO: error render
@@ -71,6 +74,7 @@ function loadFile(){
 function clearSql(){
     try{
         getSqlTextarea().value = '';
+        getResultsetContent().innerHTML = '';
         getSqlOpenFilename().innerHTML = 'untitled*';
     } catch(error){
         console.error(error);

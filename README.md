@@ -56,7 +56,7 @@ Enter datasources into **config.json**
 Start CommandBox in current directory with ```box.exe``` and run the encryption task with ```task run tasks/setup```.
 This task will overwrite the configuration file with encrypted credentials.
 
-Start the server with ```server start```
+Start the server with ```server start```, mine was running at http://127.0.0.1:51444/
 
 
 ## Commands

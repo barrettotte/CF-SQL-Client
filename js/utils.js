@@ -48,3 +48,4 @@ var getSqlTextarea = () => document.getElementById("sqlTextarea");
 
 var getSqlOpenFilename = () => document.getElementById("sqlOpenFile");
 
+var getResultsetContent = () => document.getElementById('resultsetContent');
