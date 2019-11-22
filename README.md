@@ -1,21 +1,30 @@
 # CF-SQL-Client
 
-A simple SQL client for MSSQL and IBMi DB2 written with Lucee, Bootstrap, and a bit of vanilla JS.
+An unfinished toy SQL client for MSSQL and IBMi DB2 written with Lucee, Bootstrap, and a bit of vanilla JS.
 
 This was made to just screw around with Lucee, JS, and some SQL.
 Its just a toy and by no means should be used seriously or at all.
 
+<br>
+
+[![screenshot02](screenshots/screenshot02.PNG)](screenshots/screenshot02.PNG)
+
+<br>
 
 ## Features
-* IBMi DB2 and MSSQL support - only ones relevant to me currently
-* SQL syntax highlighting
+* MSSQL support - I started IBMi DB2 but got bored of this project
 * Execute multiple SQL statements
-* File loading and saving
+* File loading
 * Resultset output with bootstrap
 * Basic database information output
 
+<br>
+
+[![screenshot01](screenshots/screenshot01.PNG)](screenshots/screenshot01.PNG)
+
 
 ## Limitations / Issues
+* I didn't feel like finishing it because ColdFusion makes me want to vomit.
 * My encryption for credentials is just XOR encryption with a random number between 0 and 2048 lol...this is just a mess around project anyway.
 * I wanted to use integrated security for MSSQL, but I ran into a bunch of issues. Its just easier to do user/password for setting up the datasource.
 * SQL input can have multiple statements and are parsed using ';' as a delimiter.
@@ -62,7 +71,8 @@ Start the server with ```server start```
 
 
 ## Improvements
-NOTE: These will never be done lol
+NOTE: These will never be done
+* SQL Syntax highlighting
 * Save textarea content to file
 * Save resultset to JSON file
 * Better error handling
@@ -83,3 +93,4 @@ NOTE: These will never be done lol
 * Datasources in CF - https://coldfusion.adobe.com/2014/08/application-datasources-in-coldfusion/
 * Generated favicon with https://favicon.io/
 * SQL Server Operating System Docs - https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sql-server-operating-system-related-dynamic-management-views-transact-sql?view=sql-server-ver15
+* Lucee 3rd party jars - https://docs.lucee.org/guides/working-with-source/3rd-party-libraries.html

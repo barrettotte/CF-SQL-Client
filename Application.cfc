@@ -43,10 +43,8 @@ component output='false' hint='A basic SQL Client for MSSQL and DB2'{
                     'class':            local.dsConfig['class'],
                     'connectionString': local.dsConfig['connectionString'],
                 };
-                if(findNoCase('integratedSecurity', local.datasource.connectionString) == 0){
-                    local.datasource['username'] = local.dsConfig['username'];
-                    local.datasource['password'] = local.dsConfig['password'];
-                }
+                local.datasource['username'] = local.dsConfig['username'];
+                local.datasource['password'] = local.dsConfig['password'];
                 application.datasources[local.dsConfig.name] = local.datasource;
             } catch(any e){
                 application.utils.handleError(errMsg="Error reading datasource configuration.", e=e, isFatal=true);

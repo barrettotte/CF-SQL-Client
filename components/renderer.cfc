@@ -10,16 +10,23 @@ component output='false' hint='Build HTML string to pass back to frontend'{
             var outHtml = '';
             var req = deserializeJson(toString(getHTTPRequestData().content));
             savecontent variable='outHtml'{
-                writeOutput('
-                  <ul>
-                    <li><b>Name:&nbsp;</b>#req.name#</li>
-                    <li><b>Type:&nbsp;</b>#req.type#</li>
-                    <li><b>Host:&nbsp;</b>#req.host#</li>
-                    <li><b>Memory:&nbsp;</b>#req.memory#</li>
-                    <li><b>Threads:&nbsp;</b>#req.threads#</li>
-                    <li><b>Objects:&nbsp;</b>#req.objects#</li>
-                  </ul>
-                ');
+                writeOutput('<ul>
+                      <li><b>Name:&nbsp;</b>#req.name#</li>
+                      <li><b>Type:&nbsp;</b>#req.type#</li>'
+                );
+                if(req.type == 'MSSQL'){
+                    writeOutput('
+                      <li><b>Host:&nbsp;</b>#req.host#</li>
+                      <li><b>Memory:&nbsp;</b>#req.memory#</li>
+                      <li><b>Threads:&nbsp;</b>#req.threads#</li>
+                      <li><b>Objects:&nbsp;</b>#req.objects#</li>
+                    ');   
+                } else if(req.type == 'IBMi-DB2'){
+
+                } else{
+                    throw "Error unsupported db type '#req.type#'.";
+                }
+                writeOutput('</ul>');
             }
         } catch(any e){
             application.utils.dumpConsole('Error rendering datasource info.');

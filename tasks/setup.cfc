@@ -4,22 +4,23 @@ component{
 
     function run(){
         try{
-            var configPath = "../config.json";
+            var configPath = '../config.json';
             var config = this.readJsonFile(configPath);
-            if(!structKeyExists(config, "secretKey")){
-                var secretKey = randRange(0, 2048, 'SHA1PRNG'); // used in XOR encryption
-                var newConfig = {'secretKey': secretKey, 'datasources': arrayNew(1)};
-                for(var ds in config.datasources){
-                    ds['username'] = this.xorEncrypt(ds['username'], secretKey);
-                    ds['password'] = this.xorEncrypt(ds['password'], secretKey);
-                    arrayAppend(newConfig['datasources'], ds);
-                }
-                fileWrite(configPath, this.prettifyJson(serializeJson(newConfig)));
+            var secretKey = '';
+            if(!structKeyExists(config, 'secretKey')){
+                secretKey = randRange(0, 2048, 'SHA1PRNG'); // used in XOR encryption
             } else {
-                dump(var="Datasource credentials seem to already be encrypted.", output="console");
+                secretKey = config['secretKey']
             }
+            var newConfig = {'secretKey': secretKey, 'datasources': arrayNew(1)};
+            for(var ds in config.datasources){
+                ds['username'] = this.xorEncrypt(ds['username'], secretKey);
+                ds['password'] = this.xorEncrypt(ds['password'], secretKey);
+                arrayAppend(newConfig['datasources'], ds);
+            }
+            fileWrite(configPath, this.prettifyJson(serializeJson(newConfig)));
         } catch(any e){
-            throw "Error encrypting datasource credentials.";
+            throw 'Error encrypting datasource credentials.';
         }
     }
 
@@ -51,7 +52,7 @@ component{
             for(var i = 0; i < len(arguments.jsonStr); i++){
                 var char = arguments.jsonStr.substring(i, i+1);
                 if(char == '}' || char == ']'){
-                    pretty &= chr(10) & repeatString("  ", --depth);
+                    pretty &= chr(10) & repeatString('  ', --depth);
                 }
                 pretty &= char;
                 if(char == '{' || char == '[' || char == ','){
@@ -59,7 +60,7 @@ component{
                     if(char == '{' || char == '['){
                         depth++;
                     }
-                    pretty &= repeatString("  ", depth)
+                    pretty &= repeatString('  ', depth)
                 }
             }
         } catch(any e){

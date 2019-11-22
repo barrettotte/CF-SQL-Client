@@ -7,16 +7,13 @@ component output='true' hint='SQL execution and result set handling'{
 
     remote string function getDatasourceInfo(required string ds) returnFormat='JSON'{
         var resp = createObject('component', 'models.response').init();
-        var dsInfo = application.datasources[arguments.ds];
         try{
-            // TODO: separate by DB type
-            
-            resp.data = {
-                'memory': 'N/A', 'host': 'N/A', 'threads': 'N/A', 'objects': 'N/A',
-                'name': arguments.ds, 'type': this.classToDbType(dsInfo['class'])
-            };
-            var dsInfoQueries = getDatasourceInfoQueriesMSSQL();
-            for(var q in dsInfoQueries){
+            var dbType = this.classToDbType(application.datasources[arguments.ds]['class']);
+            resp.data = getDsInfoStruct(dbType);
+            resp.data['name'] = arguments.ds;
+
+            for(var q in this.getDsInfoQueries(dbType)){
+                dump(var=q, output='console');
                 try{
                     resp.data[q.name] = this.executeStatement(q.sql, arguments.ds);
                 } catch(any e){
@@ -77,26 +74,57 @@ component output='true' hint='SQL execution and result set handling'{
         switch(arguments.className){
             case 'com.microsoft.jdbc.sqlserver.SQLServerDriver':
                 return 'MSSQL';
-            // TODO: db2 driver
+            case 'com.ibm.as400.access.AS400JDBCDriver':
+                return 'IBMi-DB2';
         }
         throw "Unhandled driver class type '" & arguments.className & "'";
     }
 
-    private array function getDatasourceInfoQueriesMSSQL(){
-        return [
-          { 'name': 'memory', 
-            'sql':  'select total_physical_memory_kb as total_kb, available_physical_memory_kb as available_kb from sys.dm_os_sys_memory'
-          },
-          { 'name': 'threads', 
-            'sql':  'select count(*) as total_threads from sys.dm_os_threads'
-          },
-          { 'name': 'host', 
-            'sql':  'select host_platform as platform, host_distribution as distro from sys.dm_os_host_info'
-          },
-          { 'name': 'objects', 
-            'sql':  'select count(*) as allocated_objects from sys.dm_os_memory_objects'
-          }
-        ];
+    private struct function getDsInfoStruct(required string dbType){
+        var st = structNew();
+        if(arguments.dbType == 'MSSQL'){
+            st = {'memory':'N/A', 'host':'N/A', 'threads':'N/A', 'objects':'N/A'};
+        } else if(arguments.dbType == 'IBMi-DB2'){
+            st = {'sys':'N/A', 'libraries':'N/A'};
+        }
+        else{
+            throw "Error unsupported db type '#arguments.dbType#'.";
+        }
+        st['type'] = arguments.dbType;
+        return st;
+    }
+
+    private array function getDsInfoQueries(required string dbType){
+        var queries = arrayNew(1);
+        if(arguments.dbType == 'MSSQL'){
+            queries = [
+                { 'name': 'memory', 
+                  'sql':  'select total_physical_memory_kb as total_kb, available_physical_memory_kb as available_kb from sys.dm_os_sys_memory'
+                },
+                { 'name': 'threads', 
+                  'sql':  'select count(*) as total_threads from sys.dm_os_threads'
+                },
+                { 'name': 'host', 
+                  'sql':  'select host_platform as platform, host_distribution as distro from sys.dm_os_host_info'
+                },
+                { 'name': 'objects', 
+                  'sql':  'select count(*) as allocated_objects from sys.dm_os_memory_objects'
+                }
+            ];
+        } else if(arguments.dbType == 'IBMi-DB2'){
+            queries = [
+                { 'name': 'sys',
+                  'sql':  'select host_name as host, active_jobs_in_system as jobs, active_threads_in_system as threads, 
+                             average_cpu_utilization as cpu_usage from qsys2.system_status_info'
+                },
+                { 'name': 'libraries',
+                  'sql':  "select count(*) as libraries from table (qsys2.object_statistics('*ALL', 'LIB'))"
+                }
+            ];
+        } else {
+            throw "Error unsupported db type '#arguments.dbType#'.";
+        }
+        return queries;
     }
 
 }
